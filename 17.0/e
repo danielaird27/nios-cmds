@@ -1,0 +1,30 @@
+var1=$1
+var2=$2
+
+instance=
+cmd=-g
+
+if [ "$var1" == "h" ] 
+then
+    echo " == e Sub-Commands ==
+        h:          opens the "e" help menu
+        p:          pauses the processor after downloading ELF
+        0 or 1:     chooses the NIOS instance to download to
+    "
+
+
+else
+    if [ "$var1" == "p" ] || [ "$var2" == "p" ]
+    then
+        cmd=--stop
+    fi
+    if [ "$var1" == "0" ] || [ "$var1" == "1" ]
+    then
+        instance="--instance $var1"
+    elif [ "$var2" == "0" ] || [ "$var2" == "1" ]
+    then
+        instance="--instance $var2"
+    fi
+
+    nios2-download $cmd $instance Embedded/HsMain/HsMain.elf
+fi

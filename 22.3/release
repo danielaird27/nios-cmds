@@ -1,0 +1,43 @@
+# === User-set Flags ===
+APP_USER_FLAGS=""
+BSP_USER_FLAGS=""
+# ======================
+
+
+echo Turning off debug mode for BSP and HsMain
+cd Embedded/HsMain_bsp
+nios2-bsp-update-settings.exe --settings settings.bsp --set hal.make.bsp_cflags_debug ""
+stty sane
+nios2-bsp-generate-files.exe --bsp-dir . --settings settings.bsp
+stty sane
+cd ../HsMain
+nios2-app-update-makefile.exe --app-dir . --build-config default --set-debug-level=""
+stty sane
+
+# Making modification to public.mk
+cd ../HsMain_bsp
+sed -i 's/ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/#ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/' public.mk
+
+echo Generating hex
+cd ../HsMain
+make mem_init_generate
+stty sane
+
+echo Turning debug mode back on for BSP and HsMain
+cd ../HsMain_bsp
+nios2-bsp-update-settings.exe --settings settings.bsp --set hal.make.bsp_cflags_debug -g
+stty sane
+nios2-bsp-generate-files.exe --bsp-dir . --settings settings.bsp
+stty sane
+cd ../HsMain
+nios2-app-update-makefile.exe --app-dir . --build-config default --set-debug-level -g
+stty sane
+
+# Making modification to public.mk
+cd ../HsMain_bsp
+sed -i 's/ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/#ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/' public.mk
+
+echo Copying hex to build folder
+cd ../HsMain
+cp mem_init/OnchipMemRam.hex ../../build
+stty sane

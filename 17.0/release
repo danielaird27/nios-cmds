@@ -1,0 +1,23 @@
+echo Turning off debug mode for BSP and HsMain
+cd Embedded/HsMain_bsp
+nios2-bsp-update-settings.exe --settings settings.bsp --set hal.make.bsp_cflags_debug ""
+nios2-bsp-generate-files.exe --bsp-dir . --settings settings.bsp
+cd ../HsMain
+nios2-app-update-makefile.exe --app-dir . --build-config default --set-debug-level=""
+
+echo Generating hex
+cd ../HsMain
+make mem_init_generate
+
+echo Turning debug mode back on for BSP and HsMain
+cd ../HsMain_bsp
+nios2-bsp-update-settings.exe --settings settings.bsp --set hal.make.bsp_cflags_debug -g
+stty sane
+nios2-bsp-generate-files.exe --bsp-dir . --settings settings.bsp
+stty sane
+cd ../HsMain
+nios2-app-update-makefile.exe --app-dir . --build-config default --set-debug-level -g
+
+echo Copying hex to build folder
+cd ../HsMain
+cp mem_init/OnchipMemRam.hex ../../build

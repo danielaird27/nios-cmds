@@ -1,0 +1,34 @@
+cd Embedded/HsMain
+
+echo Generating the initial makefiles through the example
+nios2-swexample-create.exe --sopc-file=../../HsStdSopc/HsStdSopc.sopcinfo --type=hello_world --elf-name=HsMain.elf --app-dir=. --bsp-dir=../HsMain_bsp
+cd ../HsMain_bsp
+rm Makefile
+rm settings.bsp
+./create-this-bsp --cpu-name cpu_dft --no-make
+cd ../HsMain
+rm Makefile
+./create-this-app --no-make
+
+echo Turning off C++ support
+cd ../HsMain_bsp
+nios2-bsp-update-settings.exe --settings settings.bsp --set hal.enable_c_plus_plus 0
+nios2-bsp-generate-files.exe --bsp-dir . --settings settings.bsp
+
+echo Removing hello_world.c from example
+cd ../HsMain
+rm hello_world.c
+nios2-app-update-makefile.exe --app-dir . --remove-src-files hello_world.c
+
+echo Adding our project source files
+fileNames=$(find -name "*.c")
+#fileNames=$(find . -name "*.c" -o -name "*.cpp")
+files=""
+for file in $fileNames
+do
+	files+="--add-src-files $file "
+done
+nios2-app-update-makefile.exe --app-dir . $files
+
+echo Listing our new source files
+nios2-app-update-makefile.exe --list-src-files --app-dir .

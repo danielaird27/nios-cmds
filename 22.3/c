@@ -1,0 +1,9 @@
+echo Cleaning and making BSP
+cd "Embedded/HsMain_bsp"
+make clean
+make all
+
+echo Cleaning and making HsMain
+cd "../HsMain"
+make clean
+make all

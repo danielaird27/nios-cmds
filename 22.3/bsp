@@ -1,0 +1,3 @@
+cd Embedded/HsMain_bsp
+nios2-bsp-editor.exe --settings settings.bsp
+stty sane

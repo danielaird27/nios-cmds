@@ -1,0 +1,11 @@
+echo "== Commands ==
+    b:          builds your source code
+    bsp:        edit BSP settings
+    c:          cleans and builds your source code
+    d:          starts debug server at port 2334
+    e:          downloads ELF (call e h for more options)
+    h:          opens this help menu
+    release:    compiles release HEX and places in correct directory
+    s:          downloads SOF
+    u:          updates Makefiles
+"

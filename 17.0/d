@@ -1,0 +1,1 @@
+nios2-gdb-server.exe --tcpport 2334 --reset-target --tcppersist

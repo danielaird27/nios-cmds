@@ -1,0 +1,50 @@
+# === User-set Flags ===
+APP_USER_FLAGS="-DDFT_DEBUG"
+BSP_USER_FLAGS=""
+# ======================
+
+
+echo Generating the initial makefiles through the example
+cd Embedded/HsMain
+nios2-swexample-create.exe --sopc-file=../../HsStdSopc/HsStdSopc/HsStdSopc.sopcinfo --type=hello_world --elf-name=HsMain.elf --app-dir=. --bsp-dir=../HsMain_bsp
+stty sane
+cd ../HsMain_bsp
+rm Makefile
+rm settings.bsp
+dos2unix create-this-bsp; ./create-this-bsp --cpu-name cpu_dft --no-make
+stty sane
+cd ../HsMain
+rm Makefile
+dos2unix create-this-app; ./create-this-app --no-make
+stty sane
+
+echo Turning off C++ support
+cd ../HsMain_bsp
+nios2-bsp-update-settings.exe --settings settings.bsp --set hal.enable_c_plus_plus 0
+stty sane
+nios2-bsp-generate-files.exe --bsp-dir . --settings settings.bsp
+stty sane
+
+echo Removing hello_world.c from example
+cd ../HsMain
+rm hello_world.c
+nios2-app-update-makefile.exe --app-dir . --remove-src-files hello_world.c
+stty sane
+
+echo Adding our project source files
+fileNames=$(find -name "*.c")
+#fileNames=$(find . -name "*.c" -o -name "*.cpp")
+files=""
+for file in $fileNames
+do
+	files+="--add-src-files $file "
+done
+nios2-app-update-makefile.exe --app-dir . $files
+
+echo Listing our new source files
+nios2-app-update-makefile.exe --list-src-files --app-dir .
+stty sane
+
+# Making modification to public.mk
+cd ../HsMain_bsp
+sed -i 's/ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/#ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/' public.mk

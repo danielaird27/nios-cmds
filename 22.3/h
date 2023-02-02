@@ -1,0 +1,15 @@
+echo "== Commands ==
+    b:              builds your source code
+    bsp:            edit BSP settings
+    c:              cleans and builds your source code
+    d:              starts debug server at port 2334
+    dos2unix.sh:    converts these dos scripts to unix
+    e:              downloads ELF (call e h for more options)
+    h:              opens this help menu
+    r:              downloads RBF (with _e extension)
+    r2:             downloads RBF (without _e extension)
+    r3:             downlaods RBF (in output_files directory)
+    release:        compiles release HEX and places in correct directory
+    s:              downloads SOF
+    u:              updates Makefiles
+"

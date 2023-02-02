@@ -1,0 +1,7 @@
+echo Making BSP
+cd "Embedded/HsMain_bsp"
+make all
+
+echo Making HsMain
+cd "../HsMain"
+make all

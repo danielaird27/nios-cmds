@@ -1,0 +1,6 @@
+== Bash script information ==
+"stty echo" turns printing your characters back on
+
+"stty -echo" turns it off
+
+"stty sane" returns the terminal back to normal after a segmentation fault causes it to go haywire

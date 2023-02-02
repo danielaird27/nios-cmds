@@ -1,0 +1,2 @@
+nios2-configure-sof build/M506_TOP.sof
+stty sane
