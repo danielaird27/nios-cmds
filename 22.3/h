@@ -2,7 +2,7 @@ echo "== Commands ==
     b:              builds your source code
     bsp:            edit BSP settings
     c:              cleans and builds your source code
-    d:              starts debug server at port 2334
+    d:              starts debug server (call d h for more options)
     dos2unix.sh:    converts these dos scripts to unix
     e:              downloads ELF (call e h for more options)
     h:              opens this help menu

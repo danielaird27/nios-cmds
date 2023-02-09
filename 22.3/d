@@ -1,2 +1,35 @@
-nios2-gdb-server.exe --tcpport 2334 --reset-target --tcppersist
-stty sane
+var1=$1
+var2=$2
+
+instance=
+
+if [ "$var1" == "h" ] 
+then
+    echo " == d Sub-Commands ==
+        Please note that the first argument is the instance number 
+        and the second argument is the port number.
+
+        Possible arg 1:
+            h:              opens the "d" help menu
+            0 or 1:         chooses the NIOS instance to enter debugging with 
+        Possible arg 2:
+            any number:     port number to attach debugger
+    "
+
+
+else
+    if [ "$var1" == "0" ] || [ "$var1" == "1" ]
+    then
+        instance="--instance $var1"
+    fi
+    if [ -z "$var2" ]
+    then
+        port=2334
+    else
+        port=$var2
+    fi
+
+
+    nios2-gdb-server.exe --tcpport $port $instance --reset-target --tcppersist
+    stty sane
+fi
