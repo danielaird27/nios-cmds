@@ -1,0 +1,28 @@
+{
+    "env": {
+        "quartus": "C:\\intelFPGA\\17.0"
+    },
+
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}_bsp/HAL/inc",
+                "${workspaceFolder}_bsp/drivers/inc",
+                "${workspaceFolder}_bsp"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.19041.0",
+            "compilerPath": "${quartus}\\nios2eds\\bin\\gnu\\H-x86_64-mingw32\\bin\\nios2-elf-gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "windows-gcc-x64"
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+
+	"configurations":
+	[
+		{
+			"name": "debug",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}\\HsMain.elf",
+			"cwd": "${workspaceFolder}",
+			"MIMode": "gdb",
+			"miDebuggerPath": "${config:quartus}\\nios2eds\\bin\\gnu\\H-x86_64-mingw32\\bin\\nios2-elf-gdb.exe",
+			"symbolLoadInfo": {
+				"loadAll": true,
+				"exceptionList": ""
+			},
+
+			/* == If you want to have a breakpoint at the very first instruction, uncomment this line: == */
+			// "stopAtEntry": true,
+
+			"miDebuggerServerAddress": "localhost:2334",
+		}
+	],
+}
