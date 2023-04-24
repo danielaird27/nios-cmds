@@ -6,6 +6,8 @@ echo "== Commands ==
     dos2unix.sh:    converts these dos scripts to unix
     e:              downloads ELF (call e h for more options)
     h:              opens this help menu
+    jli:            programs hardware with JAM file passed as argument
+    pgm:            programs hardware with SOF/RBF file passed as arugment
     r:              downloads RBF (with _e extension)
     r2:             downloads RBF (without _e extension)
     r3:             downlaods RBF (in output_files directory)

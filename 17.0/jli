@@ -1,0 +1,2 @@
+inputFile=$1
+quartus_jli.exe -apgrogram $inputFile

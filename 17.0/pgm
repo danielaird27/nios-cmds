@@ -1,0 +1,2 @@
+inputFile=$1
+quartus_pgm.exe -m JTAG -o "P;$inputFile"
