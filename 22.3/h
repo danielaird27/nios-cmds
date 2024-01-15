@@ -14,4 +14,5 @@ echo "== Commands ==
     release:        compiles release HEX and places in correct directory
     s:              downloads SOF
     u:              updates Makefiles
+    j:              checks jtag connection
 "
