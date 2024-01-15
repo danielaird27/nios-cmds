@@ -15,4 +15,5 @@ echo "== Commands ==
     s:              downloads SOF
     u:              updates Makefiles
     j:              checks jtag connection
+    t:              opens nios2 terminal
 "
