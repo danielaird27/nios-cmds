@@ -1,0 +1,4 @@
+file=$1
+
+nios2-download $file
+stty sane
