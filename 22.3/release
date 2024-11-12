@@ -1,56 +1,67 @@
-# === User-set Flags ===
-APP_USER_FLAGS=""
-BSP_USER_FLAGS=""
-# ======================
+var1=$1
 
 
-echo Turning off debug mode for BSP and HsMain
-cd Embedded/HsMain_bsp
-nios2-bsp-update-settings.exe --settings settings.bsp --set hal.make.bsp_cflags_debug ""
-stty sane
-nios2-bsp-generate-files.exe --bsp-dir . --settings settings.bsp
-stty sane
-cd ../HsMain
-nios2-app-update-makefile.exe --app-dir . --build-config default --set-debug-level=""
-stty sane
+if [ "$var1" == "h" ]
+then
+    echo " == release Sub-Commands ==
+        h:          opens the "release" help menu
+        reset:      resets the NiosVersion to 0
+    "
+else
+    echo Turning off debug mode for BSP and HsMain
+    cd Embedded/HsMain_bsp
+    nios2-bsp-update-settings.exe --settings settings.bsp --set hal.make.bsp_cflags_debug ""
+    stty sane
+    nios2-bsp-generate-files.exe --bsp-dir . --settings settings.bsp
+    stty sane
+    cd ../HsMain
+    nios2-app-update-makefile.exe --app-dir . --build-config default --set-debug-level=""
+    stty sane
 
-# Making modification to public.mk
-cd ../HsMain_bsp
-sed -i 's/ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/#ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/' public.mk
+    # Making modification to public.mk
+    cd ../HsMain_bsp
+    sed -i 's/ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/#ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/' public.mk
 
-cd ../HsMain
+    cd ../HsMain
 
-echo Incrementing NIOS version
-origVersion=$(awk '/#define NIOS_VERSION/ {print $3}' Drivers/HsNiosVersion.h)
-echo Org version: $origVersion
+    echo Incrementing NIOS version
+    origVersion=$(awk '/#define NIOS_VERSION/ {print $3}' Drivers/HsNiosVersion.h)
+    echo Org version: $origVersion
 
-version=${origVersion:2:4}
-newVersion=$(($version+1))
+    version=${origVersion:2:4}
 
-newVersion=$(printf "0x%04x" $newVersion)
-echo New version: $newVersion
+    if [ "$var1" == "reset" ]
+    then
+        newVersion=0
+    else
+        newVersion=$(($version+1))
+    fi
 
-$(sed -i "s/#define NIOS_VERSION $origVersion/#define NIOS_VERSION $newVersion/" Drivers/HsNiosVersion.h)
+    newVersion=$(printf "0x%04x" $newVersion)
+    echo New version: $newVersion
 
-echo Generating hex
-make mem_init_generate
-stty sane
+    $(sed -i "s/#define NIOS_VERSION $origVersion/#define NIOS_VERSION $newVersion\r/" Drivers/HsNiosVersion.h) # Need the carriage return for Windows
 
-echo Turning debug mode back on for BSP and HsMain
-cd ../HsMain_bsp
-nios2-bsp-update-settings.exe --settings settings.bsp --set hal.make.bsp_cflags_debug -g
-stty sane
-nios2-bsp-generate-files.exe --bsp-dir . --settings settings.bsp
-stty sane
-cd ../HsMain
-nios2-app-update-makefile.exe --app-dir . --build-config default --set-debug-level -g
-stty sane
+    echo Generating hex
+    make mem_init_generate
+    stty sane
 
-# Making modification to public.mk
-cd ../HsMain_bsp
-sed -i 's/ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/#ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/' public.mk
+    echo Turning debug mode back on for BSP and HsMain
+    cd ../HsMain_bsp
+    nios2-bsp-update-settings.exe --settings settings.bsp --set hal.make.bsp_cflags_debug -g
+    stty sane
+    nios2-bsp-generate-files.exe --bsp-dir . --settings settings.bsp
+    stty sane
+    cd ../HsMain
+    nios2-app-update-makefile.exe --app-dir . --build-config default --set-debug-level -g
+    stty sane
 
-echo Copying hex to build folder
-cd ../HsMain
-cp mem_init/OnchipMemRam.hex ../../build
-stty sane
+    # Making modification to public.mk
+    cd ../HsMain_bsp
+    sed -i 's/ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/#ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/' public.mk
+
+    echo Copying hex to build folder
+    cd ../HsMain
+    cp mem_init/OnchipMemRam.hex ../../build
+    stty sane
+fi
