@@ -18,8 +18,21 @@ stty sane
 cd ../HsMain_bsp
 sed -i 's/ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/#ALT_CPPFLAGS += -DRSU_PROTECTION_SLOT=none/' public.mk
 
-echo Generating hex
 cd ../HsMain
+
+echo Incrementing NIOS version
+origVersion=$(awk '/#define NIOS_VERSION/ {print $3}' Drivers/HsNiosVersion.h)
+echo Org version: $origVersion
+
+version=${origVersion:2:4}
+newVersion=$(($version+1))
+
+newVersion=$(printf "0x%04x" $newVersion)
+echo New version: $newVersion
+
+$(sed -i "s/#define NIOS_VERSION $origVersion/#define NIOS_VERSION $newVersion/" Drivers/HsNiosVersion.h)
+
+echo Generating hex
 make mem_init_generate
 stty sane
 
