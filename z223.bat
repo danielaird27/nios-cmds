@@ -1,1 +1,1 @@
-wsl /mnt/c/Users/DanielAird/Documents/NiosScripts/22.3/setup.sh
+wsl /mnt/c/nios-cmds/22.3/setup.sh
