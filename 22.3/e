@@ -1,31 +1,64 @@
 var1=$1
 var2=$2
+var3=$3
 
 instance=
-cmd=-g
+cable=
+run="-g"
 
-if [ "$var1" == "h" ] 
+declare -a args
+cmd=nios2-download
+elf="Embedded/HsMain/HsMain.elf"
+
+
+if [ "$var1" == "h" ]
 then
     echo " == e Sub-Commands ==
         h:          opens the "e" help menu
         p:          pauses the processor after downloading ELF
-        0 or 1:     chooses the NIOS instance to download to
+        cx:         chooses the NIOS cable to download to. x represents "USB-x" in the cable definition
+        ix:         chooses the NIOS instance to download to. x represents the instance number.
     "
 
 
 else
-    if [ "$var1" == "p" ] || [ "$var2" == "p" ]
-    then
-        cmd=--stop
+    if [ "$var1" == "p" ] || [ "$var2" == "p" ] || [ "$var3" == "p" ]; then
+        run="--stop"
     fi
-    if [ "$var1" == "0" ] || [ "$var1" == "1" ]
-    then
-        instance="--instance $var1"
-    elif [ "$var2" == "0" ] || [ "$var2" == "1" ]
-    then
-        instance="--instance $var2"
+    args+=($run)
+
+    if [[ "$var1" == *"c"* ]]; then
+        cableNum=${var1#*c}
+        args+=("--cable")
+        args+=("USB-Blaster [USB-$cableNum]")
+    elif [[ "$var2" == *"c"* ]]; then
+        cableNum=${var2#*c}
+        cable="USB-Blaster [USB-$cableNum]"
+        args+=("--cable")
+        args+=("USB-Blaster [USB-$cableNum]")
+    elif [[ "$var3" == *"c"* ]]; then
+        cableNum=${var3#*c}
+        cable="USB-Blaster [USB-$cableNum]"
+        args+=("--cable")
+        args+=("USB-Blaster [USB-$cableNum]")
     fi
 
-    nios2-download $cmd $instance Embedded/HsMain/HsMain.elf
+    if [[ "$var1" == *"i"* ]]; then
+        instNum=${var1#*i}
+        args+=("--instance")
+        args+=("$instNum")
+    elif [[ "$var2" == *"i"* ]]; then
+        instNum=${var2#*i}
+        args+=("--instance")
+        args+=("$instNum")
+    elif [[ "$var3" == *"i"* ]]; then
+        instNum=${var3#*i}
+        args+=("--instance")
+        args+=("$instNum")
+    fi
+
+    args+=($elf)
+    echo $cmd "${args[@]}"
+    $cmd "${args[@]}"
 fi
 stty sane
