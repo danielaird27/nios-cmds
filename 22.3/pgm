@@ -1,3 +1,30 @@
-inputFile=$1
-quartus_pgm.exe -m JTAG -o "P;$inputFile"
+declare -a args
+cmd=quartus_pgm.exe
+file="P;$1"
+
+
+if [ "$1" == "h" ]
+then
+    echo " == e Sub-Commands ==
+        h:          opens the "e" help menu
+        cx:         chooses the NIOS cable to download to. x represents "USB-x" in the cable definition
+    The file name comes before any arguments
+    "
+
+else
+    args+=("-m")
+    args+=("JTAG")
+
+    args+=("-o")
+    args+=("$file")
+
+    if [[ "$2" == *"c"* ]]; then
+        cableNum=${2#*c}
+        args+=("--cable=USB-Blaster [USB-$cableNum]")
+    fi
+
+    echo $cmd "${args[@]}"
+    $cmd "${args[@]}"
+fi
+
 stty sane
