@@ -1,2 +1,35 @@
-nios2-configure-sof build/M506_TOP_e.rbf
+declare -a args
+cmd=nios2-configure-sof
+
+if [ "$1" == "h" ]
+then
+    echo " == e Sub-Commands ==
+        h:          opens the "e" help menu
+        cx:         chooses the NIOS cable to download to. x represents "USB-x" in the cable definition
+        n:          chooses to use RBF file M506_TOP.rbf instead of M506_TOP_e.rbf
+    "
+
+
+else
+    if [[ "$1" == *"c"* ]]; then
+        cableNum=${1#*c}
+        args+=("--cable")
+        args+=("USB-Blaster [USB-$cableNum]")
+    elif [[ "$2" == *"c"* ]]; then
+        cableNum=${2#*c}
+        cable="USB-Blaster [USB-$cableNum]"
+        args+=("--cable")
+        args+=("USB-Blaster [USB-$cableNum]")
+    fi
+
+    if [[ "$1" == "n" ]]; then
+        rbf="build/M506_TOP.rbf"
+    else
+        rbf="build/M506_TOP_e.rbf"
+    fi
+
+    args+=($rbf)
+    echo $cmd "${args[@]}"
+    $cmd "${args[@]}"
+fi
 stty sane
