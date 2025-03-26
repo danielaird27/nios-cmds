@@ -22,6 +22,9 @@ echo Turning off C++ support
 cd ../HsMain_bsp
 nios2-bsp-update-settings.exe --settings settings.bsp --set hal.enable_c_plus_plus 0
 stty sane
+echo Setting reduced drivers
+nios2-bsp-update-settings.exe --settings settings.bsp --set hal.enable_reduced_device_drivers 1
+stty sane
 nios2-bsp-generate-files.exe --bsp-dir . --settings settings.bsp
 stty sane
 

@@ -9,9 +9,7 @@ echo "== Commands ==
     h:              opens this help menu
     jli:            programs hardware with JAM file passed as argument
     pgm:            programs hardware with SOF/RBF file passed as arugment
-    r:              downloads RBF (with _e extension)
-    r2:             downloads RBF (without _e extension)
-    r3:             downlaods RBF (in output_files directory)
+    r:              downloads RBF for project
     release:        compiles release HEX and places in correct directory
     s:              downloads SOF
     u:              updates Makefiles

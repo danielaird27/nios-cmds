@@ -1,1 +1,24 @@
-nios2-terminal.exe
+declare -a args
+cmd=nios2-terminal.exe
+elf="Embedded/HsMain/HsMain.elf"
+
+
+if [ "$1" == "h" ]
+then
+    echo " == t Sub-Commands ==
+        h:          opens the "e" help menu
+        cx:         chooses the NIOS cable to download to. x represents "USB-x" in the cable definition
+    "
+
+
+else
+    if [[ "$1" == *"c"* ]]; then
+        cableNum=${1#*c}
+        args+=("--cable")
+        args+=("USB-Blaster [USB-$cableNum]")
+    fi
+
+    echo $cmd "${args[@]}"
+    $cmd "${args[@]}"
+fi
+stty sane
