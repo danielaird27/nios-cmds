@@ -1,7 +1,7 @@
 echo "== Commands ==
-    b:              builds your source code
+    b:              builds your source code; add "f" for faster
     bsp:            edit BSP settings
-    c:              cleans and builds your source code
+    c:              cleans and builds your source code; add "f" for faster
     d:              starts debug server (call d h for more options)
     dl:             programs hardware with ELF file passed as argument
     dos2unix.sh:    converts these dos scripts to unix

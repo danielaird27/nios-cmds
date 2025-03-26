@@ -1,7 +1,17 @@
+declare -a args
+cmd=make
+
+if [ "$1" == "f" ]; then
+    args+=("-j8")
+fi
+args+=("all")
+
 echo Making BSP
 cd "Embedded/HsMain_bsp"
-make all
+echo $cmd "${args[@]}"
+$cmd "${args[@]}"
 
 echo Making HsMain
 cd "../HsMain"
-make all
+echo $cmd "${args[@]}"
+$cmd "${args[@]}"
