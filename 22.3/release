@@ -28,7 +28,7 @@ else
     origVersion=$(awk '/#define NIOS_VERSION/ {print $3}' Drivers/HsNiosVersion.h)
     echo Org version: $origVersion
 
-    version=${origVersion:2:4}
+    version=0x${origVersion:2:4}
 
     if [ "$var1" == "reset" ]
     then
@@ -37,7 +37,7 @@ else
         newVersion=$(($version+1))
     fi
 
-    newVersion=$(printf "0x%04x" $newVersion)
+    newVersion=$(printf "0x%04X" $newVersion)
     echo New version: $newVersion
 
     $(sed -i "s/#define NIOS_VERSION $origVersion/#define NIOS_VERSION $newVersion\r/" Drivers/HsNiosVersion.h) # Need the carriage return for Windows
